@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raila Odinga | Historical Portfolio</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://nairobilawmonthly.com/wp-content/uploads/2024/06/raila-odinga.webp">
+    
     <!-- Social Media Preview Tags -->
     <meta property="og:title" content="Raila Amolo Odinga | Historical Portfolio">
     <meta property="og:description" content="Explore the life, career, and legacy of the Rt. Hon. Raila Amolo Odinga (1945—2025).">
@@ -33,6 +36,7 @@
             transition: all 0.3s ease-in-out;
             display: none;
             opacity: 0;
+            z-index: 100;
         }
 
         .modal.active {
@@ -161,6 +165,17 @@
             display: inline-block;
             animation: wave-bounce 2s ease-in-out infinite;
         }
+
+        .heart-btn {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .heart-btn:active {
+            transform: scale(0.8);
+        }
+        .heart-btn.liked svg {
+            fill: #ef4444;
+            stroke: #ef4444;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -183,11 +198,20 @@
     <header class="max-w-5xl mx-auto text-center mb-12 mt-4">
         <div class="inline-block bg-slate-900 text-white px-4 py-1 rounded-full text-xs font-bold mb-6 tracking-widest uppercase">The Quest for Democracy</div>
         
-        <div class="flex justify-center mb-8">
+        <div class="flex justify-center items-center gap-6 mb-8">
             <div class="status-border">
                 <div class="glow-avatar w-36 h-36 md:w-44 md:h-44 rounded-full border-4 border-white overflow-hidden shadow-2xl" onclick="openGallery()">
                     <img src="https://nairobilawmonthly.com/wp-content/uploads/2024/06/raila-odinga.webp" alt="Raila Odinga" class="w-full h-full object-cover" onerror="this.src='https://pbs.twimg.com/profile_images/1545638218182963200/hU3uY-jI_400x400.jpg'">
                 </div>
+            </div>
+            
+            <!-- Message Trigger -->
+            <div class="flex flex-col items-center">
+                <button id="likeBtn" onclick="handleLike()" class="heart-btn w-14 h-14 bg-white border border-slate-200 shadow-lg rounded-full flex items-center justify-center hover:bg-slate-50 transition-colors group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-slate-400 group-hover:text-red-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="heartIcon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -325,8 +349,33 @@
         <span class="animate-wave text-2xl">👋</span>
     </button>
 
+    <!-- Message Modal -->
+    <div id="tributeModal" class="modal fixed inset-0 items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden relative p-8 text-center border border-slate-100">
+            <div class="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-6 shadow-md border-2 border-red-50">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQF5Gmm4JVd_Vw/profile-displayphoto-scale_400_400/B4DZroOBWfG0Ag-/0/1764832583961?e=1772668800&v=beta&t=6M07s12zgPfxhHAkYdKTSfOBi_z2KdkOWIVadKmwW8w" alt="Kevin Malomba" class="w-full h-full object-cover">
+            </div>
+            
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Send Kevin Malomba a message</h3>
+            <p class="text-slate-500 text-sm mb-8">Share your thoughts or a tribute regarding the legacy of Raila Odinga.</p>
+            
+            <!-- BUTTONS FLEXED SIDE BY SIDE -->
+            <div class="flex gap-3">
+
+                 <button onclick="closeTributeModal()" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 transition-all shadow-lg text-sm">
+                    Cancel
+                </button>
+                
+                <a href="mailto:kevinmalomba@gmail.com?subject=Raila%20Odinga%20tribute" class="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center justify-center text-sm">
+                    Send Message
+                </a>
+               
+            </div>
+        </div>
+    </div>
+
     <!-- Developer Modal -->
-    <div id="devModal" class="modal fixed inset-0 z-[60] items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div id="devModal" class="modal fixed inset-0 items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative p-8 text-center">
             <button onclick="closeDevModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -349,260 +398,74 @@
     </div>
 
     <!-- Timeline Modal -->
-    <div id="timelineModal" class="modal fixed inset-0 z-50 flex-col bg-slate-50 overflow-hidden">
+    <div id="timelineModal" class="modal fixed inset-0 flex-col bg-slate-50 overflow-hidden">
         <div class="sticky top-0 w-full flex justify-between items-center px-6 py-4 bg-white border-b border-slate-200 z-50">
-            <div>
-                <h2 class="text-2xl font-black text-slate-900">JOURNEY OF A STATESMAN</h2>
-            </div>
+            <h2 class="text-2xl font-black text-slate-900 uppercase">Life Timeline</h2>
             <button onclick="closeTimeline()" class="text-slate-400 hover:text-slate-900 transition-colors p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        
         <div class="overflow-y-auto w-full p-6 md:p-12">
             <div class="max-w-4xl mx-auto v-timeline">
-                <!-- 1945: Birth -->
                 <div class="v-item">
                     <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1945</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Birth in Maseno</h4>
-                            <p class="text-sm text-slate-600 mt-2">Born January 7, 1945, at CMS Hospital, Maseno. Son of Mary Juma and Jaramogi Oginga Odinga.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1950s-60s: Education -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1950s - 1970</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Academic Foundations</h4>
-                            <p class="text-sm text-slate-600 mt-2">Attended Kisumu Union Primary, Maranda Primary, and Maranda High School. Later studied in East Germany at the Herder Institute and Magdeburg Technical University (MSc Mechanical Engineering, 1970).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1970-73: University Lecturing -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1970</span>
-                            <h4 class="font-bold text-slate-900 mt-1">University Lecturing</h4>
-                            <p class="text-sm text-slate-600 mt-2">Returned to Kenya and became a Lecturer at the University of Nairobi (Mechanical Engineering) at age 25.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1973: Marriage -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1973</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Marriage to Ida</h4>
-                            <p class="text-sm text-slate-600 mt-2">Married <strong>Ida Oyoo</strong>, marking the beginning of a life-long partnership in family and activism.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1974-82: KEBS -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1974</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Appointment at KEBS</h4>
-                            <p class="text-sm text-slate-600 mt-2">Appointed Deputy Director of the Kenya Bureau of Standards (KEBS), contributing to national industrial standards.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1982: The Coup -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1982</span>
-                            <h4 class="font-bold text-slate-900 mt-1">The 1982 Coup & Detention</h4>
-                            <p class="text-sm text-slate-600 mt-2">Accused of involvement in the August 1 attempted coup. He was detained without trial for 6 years, becoming a symbol of resistance.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1990s: Multi-party struggle -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">1990 - 1992</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Multi-Party Democracy</h4>
-                            <p class="text-sm text-slate-600 mt-2">Detained for a third time in 1990. Released in 1991, fled to Norway, then returned to join FORD in the 1992 struggle for multi-partyism.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2002: Kibaki Tosha -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2002</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Kibaki Tosha!</h4>
-                            <p class="text-sm text-slate-600 mt-2">Joined NARC and endorsed Mwai Kibaki with the famous "Kibaki Tosha" declaration, ending KANU's 24-year rule.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2005: Referendum -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2005</span>
-                            <h4 class="font-bold text-slate-900 mt-1">The Orange Movement</h4>
-                            <p class="text-sm text-slate-600 mt-2">Led the 'NO' campaign (Orange) against the proposed constitution, defeating the government and birthing the ODM party.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2007-08: Election & GNU -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2007 - 2013</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Government of National Unity</h4>
-                            <p class="text-sm text-slate-600 mt-2">Following the disputed 2007 polls, became the 2nd <strong>Prime Minister</strong> of Kenya in a power-sharing Grand Coalition Government.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2017: Disputed Election -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2017</span>
-                            <h4 class="font-bold text-slate-900 mt-1">The Disputed Election</h4>
-                            <p class="text-sm text-slate-600 mt-2">Contested the presidency under the NASA coalition. The Supreme Court nullified the first poll; he boycotted the repeat, later being sworn in as "The People's President."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2018: Handshake -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2018</span>
-                            <h4 class="font-bold text-slate-900 mt-1">The Handshake</h4>
-                            <p class="text-sm text-slate-600 mt-2">In a historic move on March 9, 2018, he entered a peace pact (The Handshake) with President Uhuru Kenyatta to unite the country.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2018-23: AU -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2018 - 2023</span>
-                            <h4 class="font-bold text-slate-900 mt-1">AU High Representative</h4>
-                            <p class="text-sm text-slate-600 mt-2">Appointed as the African Union High Representative for Infrastructure Development in Africa, championing continental connectivity.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2022: Final Run -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2022</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Azimio la Umoja</h4>
-                            <p class="text-sm text-slate-600 mt-2">Contested his fifth presidential election under the Azimio coalition, losing narrowly to William Ruto.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2025: Passing -->
-                <div class="v-item">
-                    <div class="v-dot"></div>
-                    <div class="v-content">
-                        <div class="v-text">
-                            <span class="text-red-600 font-black text-xl">2025</span>
-                            <h4 class="font-bold text-slate-900 mt-1">Passing of a Giant</h4>
-                            <p class="text-sm text-slate-600 mt-2">Passed away on October 15, 2025, in Kochi, India, after a long life of service. Interred in his ancestral home in Bondo.</p>
-                        </div>
-                    </div>
+                    <div class="v-content"><div class="v-text"><span class="text-red-600 font-black text-xl">1945</span><h4 class="font-bold text-slate-900 mt-1">Birth in Maseno</h4><p class="text-sm text-slate-600 mt-2">Born January 7, 1945, at CMS Hospital, Maseno. Son of Jaramogi Oginga Odinga.</p></div></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Gallery Carousel Modal -->
-    <div id="galleryModal" class="modal fixed inset-0 z-50 flex-col bg-black/95 items-center justify-center">
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="modal fixed inset-0 flex-col bg-black/95 items-center justify-center">
         <button onclick="closeGallery()" class="absolute top-6 right-6 text-white hover:text-red-500 z-50">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
-        
         <div class="relative w-full max-w-4xl px-4 flex flex-col items-center">
             <div class="relative w-full overflow-hidden rounded-2xl aspect-video bg-slate-900 shadow-2xl flex items-center justify-center">
-                <!-- Carousel Items -->
                 <div class="carousel-item active w-full h-full">
-                    <img src="https://peopledaily.digital/wp-content/uploads/2023/10/F3fohbAXUAEbHZn-scaled-2.jpg" class="w-full h-full object-contain" alt="Current Portfolio">
+                    <img src="https://peopledaily.digital/wp-content/uploads/2023/10/F3fohbAXUAEbHZn-scaled-2.jpg" class="w-full h-full object-contain" alt="Archive 1">
                 </div>
                 <div class="carousel-item w-full h-full">
-                    <img src="https://s.france24.com/media/display/b5d6ad2a-076d-11e9-aba6-005056bff430/w:1280/p:16x9/20171010-odinga-m.jpg" class="w-full h-full object-contain" alt="Prime Minister Days">
+                    <img src="https://s.france24.com/media/display/b5d6ad2a-076d-11e9-aba6-005056bff430/w:1280/p:16x9/20171010-odinga-m.jpg" class="w-full h-full object-contain" alt="Archive 2">
                 </div>
-                <div class="carousel-item w-full h-full">
-                    <img src="https://img.lemde.fr/2025/10/15/0/0/5500/3666/664/0/75/0/34a00de_ftp-import-images-1-5ik1kvlcaoxe-2025-10-15t072730z-1932229879-rc2qbr97vp4y-rtrmadp-3-kenya-odinga.JPG" class="w-full h-full object-contain" alt="Political Rally">
-                </div>
-
-                <!-- Navigation Controls -->
-                <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                </button>
-                <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </button>
+                <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
             </div>
-            <div class="mt-6 text-white text-sm font-medium opacity-70" id="carousel-caption">
-              Baba in Pictures
-            </div>
+            <div class="mt-6 text-white text-sm font-medium opacity-70" id="carousel-caption">Slide 1 of 2</div>
         </div>
     </div>
 
     <script>
-        function openTimeline() {
-            document.getElementById('timelineModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
+        function handleLike() {
+            const btn = document.getElementById('likeBtn');
+            const icon = document.getElementById('heartIcon');
+            
+            // Visual toggle
+            btn.classList.add('liked');
+            icon.setAttribute('fill', 'currentColor');
+            btn.style.borderColor = '#ef4444';
+            
+            // Show message modal after a brief animation delay
+            setTimeout(() => {
+                openTributeModal();
+                // Reset visual state after modal opens
+                setTimeout(() => {
+                    btn.classList.remove('liked');
+                    icon.setAttribute('fill', 'none');
+                    btn.style.borderColor = '#e2e8f0';
+                }, 500);
+            }, 400);
         }
-        function closeTimeline() {
-            document.getElementById('timelineModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        function openGallery() {
-            document.getElementById('galleryModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            updateCaption();
-        }
-        function closeGallery() {
-            document.getElementById('galleryModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        function openDevModal() {
-            document.getElementById('devModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+
+        // Modal Controls
+        function openTributeModal() { document.getElementById('tributeModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeTributeModal() { document.getElementById('tributeModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function openTimeline() { document.getElementById('timelineModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeTimeline() { document.getElementById('timelineModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function openGallery() { document.getElementById('galleryModal').classList.add('active'); document.body.style.overflow = 'hidden'; updateCaption(); }
+        function closeGallery() { document.getElementById('galleryModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function openDevModal() { document.getElementById('devModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeDevModal() { document.getElementById('devModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
 
         // Carousel Logic
         let currentSlide = 0;
@@ -617,14 +480,12 @@
         }
 
         function updateCaption() {
-            caption.innerText = `Baba In Pictures`;
+            caption.innerText = `Slide ${currentSlide + 1} of ${slides.length}`;
         }
 
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') { 
-                closeTimeline(); 
-                closeGallery(); 
-                closeDevModal();
+                closeTimeline(); closeGallery(); closeDevModal(); closeTributeModal();
             }
             if (e.key === 'ArrowLeft') changeSlide(-1);
             if (e.key === 'ArrowRight') changeSlide(1);
